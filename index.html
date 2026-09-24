@@ -1,233 +1,310 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admission Enquiry</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Admission Enquiry</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
-
-  :root{
-    --bg:#ECEEE8;
-    --surface:#FFFFFF;
-    --surface-2:#E3EADF;
-    --ink:#1A231D;
-    --ink-soft:#54615A;
-    --ink-faint:#8C978E;
-    --border:#D6DBCF;
-    --accent:#2F5233;
-    --accent-ink:#FFFFFF;
-    --gold:#A97C24;
-    --critical:#A33B2E;
-    --shadow: 0 1px 2px rgba(26,35,29,.06), 0 10px 28px rgba(26,35,29,.08);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#10140E;
-      --surface:#161C14;
-      --surface-2:#1C2419;
-      --ink:#E8ECE4;
-      --ink-soft:#AEB8A9;
-      --ink-faint:#79826F;
-      --border:#2A332480;
-      --accent:#8FCB9A;
-      --accent-ink:#10140E;
-      --gold:#D8AA53;
-      --critical:#E28575;
-      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.4);
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#10140E;
-    --surface:#161C14;
-    --surface-2:#1C2419;
-    --ink:#E8ECE4;
-    --ink-soft:#AEB8A9;
-    --ink-faint:#79826F;
-    --border:#2A332480;
-    --accent:#8FCB9A;
-    --accent-ink:#10140E;
-    --gold:#D8AA53;
-    --critical:#E28575;
-    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.4);
-  }
-
-  *{ box-sizing:border-box; }
-  body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
-    padding-inline:20px;
-  }
-  h1,h2{ font-family:'Fraunces', Georgia, serif; text-wrap:balance; margin:0; }
-
-  .wrap{
-    max-width:560px;
-    margin:0 auto;
-    padding-block:56px 72px;
-  }
-
-  .eyebrow{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:.74rem;
-    letter-spacing:.09em;
-    text-transform:uppercase;
-    color:var(--gold);
-    margin-bottom:12px;
-  }
-  h1{ font-size:2rem; line-height:1.15; margin-bottom:10px; }
-  p.dek{ color:var(--ink-soft); font-size:1rem; max-width:44ch; margin-bottom:36px; }
-
-  form{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:28px;
-    box-shadow:var(--shadow);
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-  }
-
-  .field{ display:flex; flex-direction:column; gap:6px; }
-  .field label{
-    font-size:.86rem;
-    font-weight:500;
-    color:var(--ink);
-  }
-  .field label .req{ color:var(--critical); margin-left:3px; }
-  .field input, .field select{
-    font-family:inherit;
-    font-size:.95rem;
-    color:var(--ink);
-    background:var(--bg);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:10px 12px;
-    outline:none;
-    transition:border-color .15s;
-  }
-  .field input:focus, .field select:focus{ border-color:var(--accent); }
-  .field select{ appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2354615A' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px; }
-
-  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  @media (max-width:480px){ .row2{ grid-template-columns:1fr; } }
-
-  button.submit{
-    font-family:inherit;
-    font-size:.96rem;
-    font-weight:600;
-    color:var(--accent-ink);
-    background:var(--accent);
-    border:none;
-    border-radius:8px;
-    padding:13px 18px;
-    cursor:pointer;
-    margin-top:6px;
-    transition:opacity .15s;
-  }
-  button.submit:hover{ opacity:.9; }
-  button.submit:disabled{ opacity:.6; cursor:default; }
-
-  .note{
-    font-size:.78rem;
-    color:var(--ink-faint);
-    margin-top:18px;
-    text-align:center;
-  }
-
-  .success{
-    display:none;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:40px 28px;
-    box-shadow:var(--shadow);
-    text-align:center;
-  }
-  .success.show{ display:block; }
-  form.hide{ display:none; }
-  .success .mark{
-    width:48px; height:48px;
-    border-radius:50%;
-    background:var(--surface-2);
-    color:var(--accent);
-    display:flex; align-items:center; justify-content:center;
-    margin:0 auto 18px;
-    font-size:1.3rem;
-  }
-  .success h2{ font-size:1.3rem; margin-bottom:8px; }
-  .success p{ color:var(--ink-soft); font-size:.92rem; margin:0; }
+  body{ font-family: Arial, sans-serif; background:#eef1ec; margin:0; padding:32px 16px; }
+  h1{ font-family: Georgia, serif; text-align:center; color:#2F5233; margin:0 0 6px; }
+  p.dek{ text-align:center; color:#54615A; margin:0 0 24px; font-size:14px; }
+  #crmWebToEntityForm{ box-shadow:0 8px 28px rgba(26,35,29,.12); border-radius:12px; }
 </style>
-
-<div class="wrap">
-  <div class="eyebrow">Admissions &middot; Enquiry Form</div>
-  <h1>Tell us about your child</h1>
-  <p class="dek">A member of our admissions team will follow up within two working days of receiving your enquiry.</p>
-
-  <form id="enquiryForm" action="https://crm.zoho.in/crm/WebToLeadForm" name="WebToLeads1432907000000566412" method="POST" target="hiddenFrame">
-    <input type="text" style="display:none;" name="xnQsjsdp" value="1d2a091145db8ee9b1686a7f92395e7db5c91d53510fbdaf786cbcb0874b4ee5">
-    <input type="hidden" name="zc_gad" id="zc_gad" value="">
-    <input type="text" style="display:none;" name="xmIwtLD" value="c1f74390d2e479e9ae6a5e6150425200d72311c9262db40bcfa0c105bf8f0728bf8f426f322e4d8f91d4627f5d7fed49">
-    <input type="text" style="display:none;" name="actionType" value="TGVhZHM=">
-    <input type="hidden" name="returnURL" value="">
-    <input type="text" style="display:none;" name="aG9uZXlwb3Q" value="" autocomplete="off" tabindex="-1">
-
-    <div class="row2">
-      <div class="field">
-        <label for="First_Name">First name</label>
-        <input type="text" id="First_Name" name="First Name" maxlength="40">
-      </div>
-      <div class="field">
-        <label for="Last_Name">Last name<span class="req">*</span></label>
-        <input type="text" id="Last_Name" name="Last Name" maxlength="80" required>
-      </div>
-    </div>
-
-    <div class="field">
-      <label for="Email">Email</label>
-      <input type="email" id="Email" name="Email" maxlength="100">
-    </div>
-
-    <div class="field">
-      <label for="Phone">Phone</label>
-      <input type="tel" id="Phone" name="Phone" maxlength="30">
-    </div>
-
-    <div class="field">
-      <label for="LEADCF2">Enquiry source<span class="req">*</span></label>
-      <select id="LEADCF2" name="LEADCF2" required>
-        <option value="" disabled selected>Select one</option>
-        <option value="Website Webform">Website Webform</option>
-        <option value="Walk-in">Walk-in</option>
-        <option value="Referral">Referral</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label for="Company">Current school (if applicable)<span class="req">*</span></label>
-      <input type="text" id="Company" name="Company" maxlength="200" required>
-    </div>
-
-    <button type="submit" class="submit" id="submitBtn">Submit enquiry</button>
-  </form>
-
-  <div class="success" id="successPanel">
-    <div class="mark">&#10003;</div>
-    <h2>Enquiry received</h2>
-    <p>Thank you &mdash; we've logged your details and the admissions team will be in touch shortly.</p>
-  </div>
-
-  <p class="note">Submitting this form sends your details directly to the school's admissions system.</p>
-</div>
-
-<iframe name="hiddenFrame" style="display:none;"></iframe>
-
-<script>
-  document.getElementById('enquiryForm').addEventListener('submit', function(){
-    var btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.textContent = 'Submitting…';
-    setTimeout(function(){
-      document.getElementById('enquiryForm').classList.add('hide');
-      document.getElementById('successPanel').classList.add('show');
-    }, 900);
-  });
-</script>
+</head>
+<body>
+<h1>Admission Enquiry</h1>
+<p class="dek">Tell us about your child and our admissions team will follow up within two working days.</p>
+<div id = 'crmWebToEntityForm' class = 'zcwf_lblLeft crmWebToEntityForm' style = 'background-color: white;color: black;max-width: 600px;'>
+	<meta name = 'viewport' content = 'width=device-width, initial-scale=1.0'>
+		<META HTTP-EQUIV = 'content-type' CONTENT = 'text/html;charset=UTF-8'>
+			<form id = 'webform1432907000000566412' action = 'https://crm.zoho.in/crm/WebToLeadForm' name = WebToLeads1432907000000566412 method = 'POST' onSubmit = 'javascript:document.charset="UTF-8"; return checkMandatory1432907000000566412()' accept-charset = 'UTF-8'>
+				<input type = 'text' style = 'display:none;' name = 'xnQsjsdp' value = '1d2a091145db8ee9b1686a7f92395e7db5c91d53510fbdaf786cbcb0874b4ee5'>
+				</input>
+				<input type = 'hidden' name = 'zc_gad' id = 'zc_gad' value = ''>
+				</input>
+				<input type = 'text' style = 'display:none;' name = 'xmIwtLD' value = 'c1f74390d2e479e9ae6a5e6150425200d72311c9262db40bcfa0c105bf8f0728bf8f426f322e4d8f91d4627f5d7fed49'>
+				</input>
+				<input type = 'text' style = 'display:none;' name = 'actionType' value = 'TGVhZHM='>
+				</input>
+				<input type = 'text' style = 'display:none;' name = 'returnURL' value = 'null'>
+				</input>
+				<style>
+					html,body{
+						margin: 0px;
+					}
+					.formsubmit.zcwf_button{
+						color: white !important;
+						background: transparent linear-gradient(0deg, #0279FF 0%, #00A3F3 100%);
+					}
+					#crmWebToEntityForm.zcwf_lblLeft{
+						width: 100%;
+						padding: 25px;
+						margin: 0 auto;
+						box-sizing: border-box;
+					}
+					#crmWebToEntityForm.zcwf_lblLeft *{
+						box-sizing: border-box;
+					}
+					#crmWebToEntityForm{
+						text-align: left;
+					}
+					#crmWebToEntityForm *{
+						direction: ltr;
+					}
+					.zcwf_lblLeft .zcwf_title{
+						word-wrap: break-word;
+						padding: 0px 6px 10px;
+						font-weight: bold }
+					.zcwf_lblLeft .zcwf_col_fld input[ type  = text], input[ type  = password], .zcwf_lblLeft .zcwf_col_fld textarea{
+						width: 60%;
+						border: 1px solid  #c0c6cc !important;
+						resize: vertical;
+						border-radius: 2px;
+						float: left;
+					}
+					.zcwf_lblLeft .zcwf_col_lab{
+						width: 30%;
+						word-break: break-word;
+						padding: 0px 6px 0px;
+						margin-right: 10px;
+						margin-top: 5px;
+						float: left;
+						min-height: 1px;
+					}
+					.zcwf_lblLeft .zcwf_col_fld{
+						float: left;
+						width: 68%;
+						padding: 0px 6px 0px;
+						position: relative;
+						margin-top: 5px;
+					}
+					.zcwf_lblLeft .zcwf_col_fld_slt{
+						width: 60%;
+						border: 1px solid  #ccc;
+						background:  #fff;
+						border-radius: 4px;
+						font-size: 12px;
+						float: left;
+						resize: vertical;
+						padding: 2px 5px;
+					}
+					.zcwf_lblLeft .zcwf_row:after, .zcwf_lblLeft .zcwf_col_fld:after{
+						content: '';
+						display: table;
+						clear: both;
+					}
+					.zcwf_lblLeft .zcwf_col_help{
+						float: left;
+						margin-left: 7px;
+						font-size: 12px;
+						max-width: 35%;
+						word-break: break-word;
+					}
+					.zcwf_lblLeft .zcwf_row{
+						margin: 15px 0px;
+					}
+					.zcwf_lblLeft .formsubmit{
+						margin-right: 5px;
+						cursor: pointer;
+						color:  #313949;
+						font-size: 12px;
+					}
+					.zcwf_lblLeft .zcwf_button{
+						font-size: 12px;
+						color:  #313949;
+						border: 1px solid  #c0c6cc;
+						padding: 3px 9px;
+						border-radius: 4px;
+						cursor: pointer;
+						max-width: 120px;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+					@media all and  (max-width: 600px){
+						.zcwf_lblLeft .zcwf_col_lab, .zcwf_lblLeft .zcwf_col_fld{
+							width: auto;
+							float: none !important;
+						}
+						.zcwf_lblLeft .zcwf_col_help{
+							width: 40%;
+						}
+					}
+				</style>
+				<div class = 'zcwf_title' style = 'max-width: 600px;color: black; font-family:Arial;'>School Admission Enquiry</div>
+				<div class = 'zcwf_row'>
+					<div class = 'zcwf_col_lab' style = 'font-size:12px; font-family: Arial;'>
+						<label for = 'First_Name'>First Name</label>
+					</div>
+					<div class = 'zcwf_col_fld'>
+						<input type = 'text' id = 'First_Name' aria-required = 'false' aria-label = 'First Name' name = 'First Name' aria-valuemax = '40' maxlength = '40'>
+						</input>
+						<div class = 'zcwf_col_help'>
+						</div>
+					</div>
+				</div>
+				<div class = 'zcwf_row'>
+					<div class = 'zcwf_col_lab' style = 'font-size:12px; font-family: Arial;'>
+						<label for = 'Last_Name'>Last Name
+							<span style = 'color:red;'>*</span>
+						</label>
+					</div>
+					<div class = 'zcwf_col_fld'>
+						<input type = 'text' id = 'Last_Name' aria-required = 'true' aria-label = 'Last Name' name = 'Last Name' aria-valuemax = '80' maxlength = '80'>
+						</input>
+						<div class = 'zcwf_col_help'>
+						</div>
+					</div>
+				</div>
+				<div class = 'zcwf_row'>
+					<div class = 'zcwf_col_lab' style = 'font-size:12px; font-family: Arial;'>
+						<label for = 'Email'>Email</label>
+					</div>
+					<div class = 'zcwf_col_fld'>
+						<input type = 'text' ftype = 'email' autocomplete = 'false' id = 'Email' aria-required = 'false' aria-label = 'Email' name = 'Email' aria-valuemax = '100' crmlabel = '' maxlength = '100'>
+						</input>
+						<div class = 'zcwf_col_help'>
+						</div>
+					</div>
+				</div>
+				<div class = 'zcwf_row'>
+					<div class = 'zcwf_col_lab' style = 'font-size:12px; font-family: Arial;'>
+						<label for = 'Phone'>Phone</label>
+					</div>
+					<div class = 'zcwf_col_fld'>
+						<input type = 'text' id = 'Phone' aria-required = 'false' aria-label = 'Phone' name = 'Phone' aria-valuemax = '30' maxlength = '30'>
+						</input>
+						<div class = 'zcwf_col_help'>
+						</div>
+					</div>
+				</div>
+				<div class = 'zcwf_row'>
+					<div class = 'zcwf_col_lab' style = 'font-size:12px; font-family: Arial;'>
+						<label for = 'LEADCF2'>Enquiry Source
+							<span style = 'color:red;'>*</span>
+						</label>
+					</div>
+					<div class = 'zcwf_col_fld'>
+						<select class = 'zcwf_col_fld_slt' role = 'combobox' aria-expanded = 'false' aria-haspopup = 'listbox' id = 'LEADCF2' onChange = 'addAriaSelected1432907000000566412()' aria-required = 'true' aria-label = 'LEADCF2' name = 'LEADCF2'>
+							<option value = '-None-'>-None-</option>
+							<option value = 'Website Webform'>Website Webform</option>
+							<option value = 'Walk-in'>Walk-in</option>
+							<option value = 'Referral'>Referral</option>
+						</select>
+						<div class = 'zcwf_col_help'>
+						</div>
+					</div>
+				</div>
+				<div class = 'zcwf_row'>
+					<div class = 'zcwf_col_lab' style = 'font-size:12px; font-family: Arial;'>
+						<label for = 'Company'>Current School (if applicable)
+							<span style = 'color:red;'>*</span>
+						</label>
+					</div>
+					<div class = 'zcwf_col_fld'>
+						<input type = 'text' id = 'Company' aria-required = 'true' aria-label = 'Company' name = 'Company' aria-valuemax = '200' maxlength = '200'>
+						</input>
+						<div class = 'zcwf_col_help'>
+						</div>
+					</div>
+				</div>
+				<input type = 'text' type = 'hidden' style = 'display: none;' name = 'aG9uZXlwb3Q' value = ''/>
+				<div class = 'zcwf_row'>
+					<div class = 'zcwf_col_lab'>
+					</div>
+					<div class = 'zcwf_col_fld'>
+						<input type = 'submit' id = 'formsubmit' role = 'button' class = 'formsubmit zcwf_button' value = 'Submit' aria-label = 'Submit' title = 'Submit'>
+							<input type = 'reset' class = 'zcwf_button' role = 'button' name = 'reset' value = 'Reset' aria-label = 'Reset' title = 'Reset'>
+							</div>
+						</div>
+						<script>
+							function addAriaSelected1432907000000566412(){
+								var optionElem = event.target;
+								var previousSelectedOption = optionElem.querySelector('[aria-selected=true]');
+								if (previousSelectedOption) {
+									previousSelectedOption.removeAttribute('aria-selected');
+								}
+								optionElem.querySelectorAll('option') [optionElem.selectedIndex] .ariaSelected = 'true';
+							}
+							function validateEmail1432907000000566412(){
+								var form = document.forms['WebToLeads1432907000000566412'];
+								var emailFld = form.querySelectorAll('[ftype=email]');
+								var i;
+								for(i = 0; i < emailFld.length; i++ ) {
+									var emailVal = emailFld[i].value;
+									if ((emailVal.replace (/^\s+|\s+$/g,'') ) .length != 0) {
+										var atpos = emailVal.indexOf('@');
+										var dotpos = emailVal.lastIndexOf('.');
+										if(atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= emailVal.length) {
+											alert('Please enter a valid email address. ');
+											emailFld[i].focus();
+											return false;
+										}
+									}
+								}
+								return true;
+							}
+							function checkMandatory1432907000000566412(isAjax){
+								var mndFileds = new Array('Company', 'Last Name', 'LEADCF2');
+								var fldLangVal = new Array('Current School (if applicable)', 'Last Name', 'Enquiry Source');
+								for (i = 0; i < mndFileds.length; i++ ) {
+									var fieldObj = document.forms['WebToLeads1432907000000566412'] [mndFileds[i]];
+									if (fieldObj) {
+										if(((fieldObj.value) .replace (/^\s+|\s+$/g,'') ) .length == 0) {
+											if (fieldObj.type == 'file') {
+												alert('Please select a file to upload.');
+												fieldObj.focus();
+												return false;
+											}
+											alert(fldLangVal[i] + ' cannot be empty.');
+											fieldObj.focus();
+											return false;
+										} else if (fieldObj.nodeName == 'SELECT') {
+											if (fieldObj.options[fieldObj.selectedIndex].value == '-None-') {
+												alert(fldLangVal[i] + ' cannot be none.');
+												fieldObj.focus();
+												return false;
+											}
+										} else if (fieldObj.type == 'checkbox') {
+											if (fieldObj.checked == false) {
+												alert('Please accept  ' + fldLangVal[i]);
+												fieldObj.focus();
+												return false;
+											}
+										}
+										try{
+											if (fieldObj.name == 'Last Name') {
+												name = fieldObj.value;
+											}
+										} catch (e){}
+									}
+								}
+								if ( !validateEmail1432907000000566412 () ) {
+									return false;
+								}
+								var urlparams = new URLSearchParams(window.location.search);
+								if (urlparams.has ('service') && (urlparams.get ('service') === 'smarturl') ) {
+									var webform = document.getElementById('webform1432907000000566412');
+									var service = urlparams.get('service');
+									var smarturlfield = document.createElement('input');
+									smarturlfield.setAttribute('type', 'hidden');
+									smarturlfield.setAttribute('value', service);
+									smarturlfield.setAttribute('name', 'service');
+									webform.appendChild(smarturlfield);
+								}
+								document.querySelector('.crmWebToEntityForm .formsubmit').setAttribute('disabled', true);
+							}
+							_wFa_ajax_will_be_replaced = false;
+							if (typeof _wfa_fstprtcken == 'undefined') {
+								_wfa_fstprtcken = {};
+							}
+							_wfa_fstprtcken[1432907000000566412] = true;
+						</script>
+						<!-- Do not remove this --- Analytics Tracking code starts -->
+						<script id = 'wf_anal' src = 'https://crm.zohopublic.in/crm/WebFormAnalyticsServeServlet?rid=30a356260ce9cd3654ff84b80e5bdf7b343910a4253182e6c50bc8cd544e15bfe3481be52ce208b959ef157c400dbcbdgidc02f960e8347349888edf47ff84f920b6f48a0f632cb331562d744342bd243d7gid0c5dbd54bbab5661f200ffb8a400f2c28c61f228d083529c986e33797ba22fd5gid33a9d1fafd01f3e6f0a41e8bbc770939a48e041edf88c0a5bf94529dcd72dc31&tw=2199d28c2738b75c884e17f7669f9ebae6b321838df050d544753067dafb20c4&version=v2'>
+					</script>
+					<!-- Do not remove this --- Analytics Tracking code ends. -->
+				</form>
+			</div>
+</body>
 </html>
